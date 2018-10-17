@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="摘要主要贡献：在增加深度的网络（16-19）下，卷积层全部使用3×3的卷积核，精度还保证较高 1.introduction1.1简介ConvNet在CV领域流行，许多学者做出了改进，比如：  2013年ILSVRC，在第一层卷积层中使用smaller receptive window size和smaller stride 2014年Hward等人，在whole image and multipl">
+<meta name="description" content="摘要主要贡献：在增加深度的网络（16-19）下，卷积层全部使用3×3的卷积核，精度还保证较高 introduction1.1简介ConvNet在CV领域流行，许多学者做出了改进，比如：  2013年ILSVRC，在第一层卷积层中使用smaller receptive window size和smaller stride 2014年Hward等人，在whole image and multiple">
 <meta name="keywords" content="论文笔记">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Very Deep Convolution Networks For Large-Scale Image Recognition">
 <meta property="og:url" content="http://yoursite.com/2018/10/17/Very-Deep-Convolution-Networks-For-Large-Scale-Image-Recognition/index.html">
 <meta property="og:site_name" content="Wxia">
-<meta property="og:description" content="摘要主要贡献：在增加深度的网络（16-19）下，卷积层全部使用3×3的卷积核，精度还保证较高 1.introduction1.1简介ConvNet在CV领域流行，许多学者做出了改进，比如：  2013年ILSVRC，在第一层卷积层中使用smaller receptive window size和smaller stride 2014年Hward等人，在whole image and multipl">
+<meta property="og:description" content="摘要主要贡献：在增加深度的网络（16-19）下，卷积层全部使用3×3的卷积核，精度还保证较高 introduction1.1简介ConvNet在CV领域流行，许多学者做出了改进，比如：  2013年ILSVRC，在第一层卷积层中使用smaller receptive window size和smaller stride 2014年Hward等人，在whole image and multiple">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-10-17T11:05:46.151Z">
+<meta property="og:updated_time" content="2018-10-17T11:16:48.013Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Very Deep Convolution Networks For Large-Scale Image Recognition">
-<meta name="twitter:description" content="摘要主要贡献：在增加深度的网络（16-19）下，卷积层全部使用3×3的卷积核，精度还保证较高 1.introduction1.1简介ConvNet在CV领域流行，许多学者做出了改进，比如：  2013年ILSVRC，在第一层卷积层中使用smaller receptive window size和smaller stride 2014年Hward等人，在whole image and multipl">
+<meta name="twitter:description" content="摘要主要贡献：在增加深度的网络（16-19）下，卷积层全部使用3×3的卷积核，精度还保证较高 introduction1.1简介ConvNet在CV领域流行，许多学者做出了改进，比如：  2013年ILSVRC，在第一层卷积层中使用smaller receptive window size和smaller stride 2014年Hward等人，在whole image and multiple">
 
 
 
@@ -343,7 +343,7 @@
 
       
         <h3 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h3><p><strong>主要贡献</strong>：在增加深度的网络（16-19）下，卷积层全部使用3×3的卷积核，精度还保证较高</p>
-<h3 id="1-introduction"><a href="#1-introduction" class="headerlink" title="1.introduction"></a>1.introduction</h3><h5 id="1-1简介"><a href="#1-1简介" class="headerlink" title="1.1简介"></a>1.1简介</h5><p>ConvNet在CV领域流行，许多学者做出了改进，比如：</p>
+<h3 id="introduction"><a href="#introduction" class="headerlink" title="introduction"></a>introduction</h3><h5 id="1-1简介"><a href="#1-1简介" class="headerlink" title="1.1简介"></a>1.1简介</h5><p>ConvNet在CV领域流行，许多学者做出了改进，比如：</p>
 <ul>
 <li>2013年ILSVRC，在第一层卷积层中使用smaller receptive window size和smaller stride</li>
 <li>2014年Hward等人，在whole image and multiple scales上训练和测试网络</li>
@@ -355,8 +355,11 @@
 <li>sec 4: 分类实验</li>
 <li>sec 5: 总结文章</li>
 </ul>
-<h3 id="2-网络结构"><a href="#2-网络结构" class="headerlink" title="2.网络结构"></a>2.网络结构</h3><h4 id="2-1-结构"><a href="#2-1-结构" class="headerlink" title="2.1 结构"></a>2.1 结构</h4><ul>
+<h3 id="网络结构"><a href="#网络结构" class="headerlink" title="网络结构"></a>网络结构</h3><h4 id="2-1-结构"><a href="#2-1-结构" class="headerlink" title="2.1 结构"></a>2.1 结构</h4><ul>
 <li>输入是固定大小224*224RGB,他们仅做了这个预处理：<font color="#dd0000">在训练集上的每个像素减去RGB均值</font></li>
+<li>在卷积层，全程使用3<em>3的filter。（在depth=16中，有用到1</em>1的filter，目的是:<font color="#dd0000">1）降维 2）是输入channel的线性组合）</font></li>
+<li>Conv stride is 1，padding is 1，保证image 卷积后大小不变。</li>
+<li>在每层卷积后，有1个maxpool，共5个。maxpool的windows size is 2*2,with stride 2</li>
 </ul>
 
       
@@ -528,7 +531,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#摘要"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-introduction"><span class="nav-number">2.</span> <span class="nav-text">1.introduction</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-1简介"><span class="nav-number">2.0.1.</span> <span class="nav-text">1.1简介</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-2-文章结构"><span class="nav-number">2.0.2.</span> <span class="nav-text">1.2 文章结构</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-网络结构"><span class="nav-number">3.</span> <span class="nav-text">2.网络结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-结构"><span class="nav-number">3.1.</span> <span class="nav-text">2.1 结构</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#摘要"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#introduction"><span class="nav-number">2.</span> <span class="nav-text">introduction</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-1简介"><span class="nav-number">2.0.1.</span> <span class="nav-text">1.1简介</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-2-文章结构"><span class="nav-number">2.0.2.</span> <span class="nav-text">1.2 文章结构</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#网络结构"><span class="nav-number">3.</span> <span class="nav-text">网络结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-结构"><span class="nav-number">3.1.</span> <span class="nav-text">2.1 结构</span></a></li></ol></li></ol></div>
             
 
           </div>
