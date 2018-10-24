@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="深度增强学习," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="深度增强学习方向论文整理一. 开山鼻祖DQN Playing Atari with Deep Reinforcement Learning，V. Mnih et al., NIPS Workshop, 2013.  Human-level control through deep reinforcement learning, V. Mnih et al., Nature, 2015.   二.">
+<meta name="keywords" content="深度增强学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DRL paper">
+<meta property="og:url" content="http://yoursite.com/2018/10/24/DRL-paper/index.html">
+<meta property="og:site_name" content="Wxia">
+<meta property="og:description" content="深度增强学习方向论文整理一. 开山鼻祖DQN Playing Atari with Deep Reinforcement Learning，V. Mnih et al., NIPS Workshop, 2013.  Human-level control through deep reinforcement learning, V. Mnih et al., Nature, 2015.   二.">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-10-24T10:49:02.096Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="DRL paper">
+<meta name="twitter:description" content="深度增强学习方向论文整理一. 开山鼻祖DQN Playing Atari with Deep Reinforcement Learning，V. Mnih et al., NIPS Workshop, 2013.  Human-level control through deep reinforcement learning, V. Mnih et al., Nature, 2015.   二.">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/10/24/DRL-paper/"/>
+
+
+
+
+
+  <title>DRL paper | Wxia</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Wxia</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/24/DRL-paper/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wangxiaxia">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Wxia">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">DRL paper</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-24T18:44:35+08:00">
+                2018-10-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/DRL/" itemprop="url" rel="index">
+                    <span itemprop="name">DRL</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="深度增强学习方向论文整理"><a href="#深度增强学习方向论文整理" class="headerlink" title="深度增强学习方向论文整理"></a>深度增强学习方向论文整理</h3><h5 id="一-开山鼻祖DQN"><a href="#一-开山鼻祖DQN" class="headerlink" title="一. 开山鼻祖DQN"></a>一. 开山鼻祖DQN</h5><ol>
+<li><p>Playing Atari with Deep Reinforcement Learning，V. Mnih et al., NIPS Workshop, 2013.</p>
+</li>
+<li><p>Human-level control through deep reinforcement learning, V. Mnih et al., Nature, 2015.</p>
+</li>
+</ol>
+<h5 id="二-DQN的各种改进版本（侧重于算法上的改进）"><a href="#二-DQN的各种改进版本（侧重于算法上的改进）" class="headerlink" title="二. DQN的各种改进版本（侧重于算法上的改进）"></a>二. DQN的各种改进版本（侧重于算法上的改进）</h5><ol>
+<li><p>Dueling Network Architectures for Deep Reinforcement Learning. Z. Wang et al., arXiv, 2015.</p>
+</li>
+<li><p>Prioritized Experience Replay, T. Schaul et al., ICLR, 2016.</p>
+</li>
+<li><p>Deep Reinforcement Learning with Double Q-learning, H. van Hasselt et al., arXiv, 2015.</p>
+</li>
+<li><p>Increasing the Action Gap: New Operators for Reinforcement Learning, M. G. Bellemare et al., AAAI, 2016.</p>
+</li>
+<li><p>Dynamic Frame skip Deep Q Network, A. S. Lakshminarayanan et al., IJCAI Deep RL Workshop, 2016.</p>
+</li>
+<li><p>Deep Exploration via Bootstrapped DQN, I. Osband et al., arXiv, 2016.</p>
+</li>
+<li><p>How to Discount Deep Reinforcement Learning: Towards New Dynamic Strategies, V. François-Lavet et al., NIPS Workshop, 2015.</p>
+</li>
+<li><p>Learning functions across many orders of magnitudes，H Van Hasselt，A Guez，M Hessel，D Silver</p>
+</li>
+<li><p>Massively Parallel Methods for Deep Reinforcement Learning, A. Nair et al., ICML Workshop, 2015.</p>
+</li>
+<li><p>State of the Art Control of Atari Games using shallow reinforcement learning</p>
+</li>
+<li><p>Learning to Play in a Day: Faster Deep Reinforcement Learning by Optimality Tightening（11.13更新）</p>
+</li>
+<li><p>Deep Reinforcement Learning with Averaged Target DQN（11.14更新）</p>
+</li>
+<li><p>Safe and Efficient Off-Policy Reinforcement Learning（12.20更新）</p>
+</li>
+<li><p>The Predictron: End-To-End Learning and Planning （1.3更新）</p>
+</li>
+</ol>
+<h5 id="三-DQN的各种改进版本（侧重于模型的改进）"><a href="#三-DQN的各种改进版本（侧重于模型的改进）" class="headerlink" title="三. DQN的各种改进版本（侧重于模型的改进）"></a>三. DQN的各种改进版本（侧重于模型的改进）</h5><ol>
+<li><p>Deep Recurrent Q-Learning for Partially Observable MDPs, M. Hausknecht and P. Stone, arXiv, 2015.</p>
+</li>
+<li><p>Deep Attention Recurrent Q-Network</p>
+</li>
+<li><p>Control of Memory, Active Perception, and Action in Minecraft, J. Oh et al., ICML, 2016.</p>
+</li>
+<li><p>Progressive Neural Networks</p>
+</li>
+<li><p>Language Understanding for Text-based Games Using Deep Reinforcement Learning</p>
+</li>
+<li><p>Learning to Communicate to Solve Riddles with Deep Distributed Recurrent Q-Networks</p>
+</li>
+<li><p>Hierarchical Deep Reinforcement Learning: Integrating Temporal Abstraction and Intrinsic Motivation</p>
+</li>
+<li><p>Recurrent Reinforcement Learning: A Hybrid Approach</p>
+</li>
+<li><p>Value Iteration Networks, NIPS, 2016 （12.20更新）</p>
+</li>
+<li><p>MazeBase：A sandbox for learning from games（12.20更新）</p>
+</li>
+<li><p>Strategic Attentive Writer for Learning Macro-Actions（12.20更新）</p>
+</li>
+</ol>
+<h5 id="四-基于策略梯度的深度强化学习"><a href="#四-基于策略梯度的深度强化学习" class="headerlink" title="四. 基于策略梯度的深度强化学习"></a>四. 基于策略梯度的深度强化学习</h5><p>深度策略梯度：</p>
+<ol>
+<li><p>End-to-End Training of Deep Visuomotor Policies</p>
+</li>
+<li><p>Learning Deep Control Policies for Autonomous Aerial Vehicles with MPC-Guided Policy Search</p>
+</li>
+<li><p>Trust Region Policy Optimization</p>
+</li>
+</ol>
+<p>深度行动者评论家算法：</p>
+<ol>
+<li><p>Deterministic Policy Gradient Algorithms</p>
+</li>
+<li><p>Continuous control with deep reinforcement learning</p>
+</li>
+<li><p>High-Dimensional Continuous Control Using Using Generalized Advantage Estimation</p>
+</li>
+<li><p>Compatible Value Gradients for Reinforcement Learning of Continuous Deep Policies</p>
+</li>
+<li><p>Deep Reinforcement Learning in Parameterized Action Space</p>
+</li>
+<li><p>Memory-based control with recurrent neural networks</p>
+</li>
+<li><p>Terrain-adaptive locomotion skills using deep reinforcement learning</p>
+</li>
+<li><p>Compatible Value Gradients for Reinforcement Learning of Continuous Deep Policies</p>
+</li>
+<li><p>SAMPLE EFFICIENT ACTOR-CRITIC WITH EXPERIENCE REPLAY（11.13更新）</p>
+</li>
+</ol>
+<p>搜索与监督：</p>
+<ol>
+<li><p>End-to-End Training of Deep Visuomotor Policies</p>
+</li>
+<li><p>Interactive Control of Diverse Complex Characters with Neural Networks</p>
+</li>
+</ol>
+<p>连续动作空间下探索改进：</p>
+<ol>
+<li>Curiosity-driven Exploration in DRL via Bayesian Neuarl Networks</li>
+</ol>
+<p>结合策略梯度和Q学习：</p>
+<ol>
+<li><p>Q-PROP: SAMPLE-EFFICIENT POLICY GRADIENT WITH AN OFF-POLICY CRITIC（11.13更新）</p>
+</li>
+<li><p>PGQ: COMBINING POLICY GRADIENT AND Q-LEARNING（11.13更新）</p>
+</li>
+</ol>
+<p>其它策略梯度文章：</p>
+<ol>
+<li><p>Gradient Estimation Using Stochastic Computation Graphs</p>
+</li>
+<li><p>Continuous Deep Q-Learning with Model-based Acceleration</p>
+</li>
+<li><p>Benchmarking Deep Reinforcement Learning for Continuous Control</p>
+</li>
+<li><p>Learning Continuous Control Policies by Stochastic Value Gradients</p>
+</li>
+<li><p>Generalizing Skills with Semi-Supervised Reinforcement Learning（12.20更新）</p>
+</li>
+</ol>
+<h5 id="五-分层DRL"><a href="#五-分层DRL" class="headerlink" title="五. 分层DRL"></a>五. 分层DRL</h5><ol>
+<li><p>Deep Successor Reinforcement Learning</p>
+</li>
+<li><p>Hierarchical Deep Reinforcement Learning: Integrating Temporal Abstraction and Intrinsic Motivation</p>
+</li>
+<li><p>Hierarchical Reinforcement Learning using Spatio-Temporal Abstractions and Deep Neural Networks</p>
+</li>
+<li><p>Stochastic Neural Networks for Hierarchical Reinforcement Learning – Authors: Carlos Florensa, Yan Duan, Pieter Abbeel （11.14更新）</p>
+</li>
+</ol>
+<h5 id="六-DRL中的多任务和迁移学习"><a href="#六-DRL中的多任务和迁移学习" class="headerlink" title="六. DRL中的多任务和迁移学习"></a>六. DRL中的多任务和迁移学习</h5><ol>
+<li><p>ADAAPT: A Deep Architecture for Adaptive Policy Transfer from Multiple Sources</p>
+</li>
+<li><p>A Deep Hierarchical Approach to Lifelong Learning in Minecraft</p>
+</li>
+<li><p>Actor-Mimic: Deep Multitask and Transfer Reinforcement Learning</p>
+</li>
+<li><p>Policy Distillation</p>
+</li>
+<li><p>Progressive Neural Networks</p>
+</li>
+<li><p>Universal Value Function Approximators</p>
+</li>
+<li><p>Multi-task learning with deep model based reinforcement learning（11.14更新）</p>
+</li>
+<li><p>Modular Multitask Reinforcement Learning with Policy Sketches （11.14更新）</p>
+</li>
+</ol>
+<h5 id="七-基于外部记忆模块的DRL模型"><a href="#七-基于外部记忆模块的DRL模型" class="headerlink" title="七. 基于外部记忆模块的DRL模型"></a>七. 基于外部记忆模块的DRL模型</h5><ol>
+<li><p>Control of Memory, Active Perception, and Action in Minecraft</p>
+</li>
+<li><p>Model-Free Episodic Control</p>
+</li>
+</ol>
+<h5 id="八-DRL中探索与利用问题"><a href="#八-DRL中探索与利用问题" class="headerlink" title="八. DRL中探索与利用问题"></a>八. DRL中探索与利用问题</h5><ol>
+<li><p>Action-Conditional Video Prediction using Deep Networks in Atari Games</p>
+</li>
+<li><p>Curiosity-driven Exploration in Deep Reinforcement Learning via Bayesian Neural Networks</p>
+</li>
+<li><p>Deep Exploration via Bootstrapped DQN</p>
+</li>
+<li><p>Hierarchical Deep Reinforcement Learning: Integrating Temporal Abstraction and Intrinsic Motivation</p>
+</li>
+<li><p>Incentivizing Exploration In Reinforcement Learning With Deep Predictive Models</p>
+</li>
+<li><p>Unifying Count-Based Exploration and Intrinsic Motivation</p>
+</li>
+<li><p>#Exploration: A Study of Count-Based Exploration for Deep Reinforcemen Learning（11.14更新）</p>
+</li>
+<li><p>Surprise-Based Intrinsic Motivation for Deep Reinforcement Learning（11.14更新）</p>
+</li>
+<li><p>VIME: Variational Information Maximizing Exploration（12.20更新）</p>
+</li>
+</ol>
+<h5 id="九-多Agent的DRL"><a href="#九-多Agent的DRL" class="headerlink" title="九. 多Agent的DRL"></a>九. 多Agent的DRL</h5><ol>
+<li><p>Learning to Communicate to Solve Riddles with Deep Distributed Recurrent Q-Networks</p>
+</li>
+<li><p>Multiagent Cooperation and Competition with Deep Reinforcement Learning</p>
+</li>
+</ol>
+<h5 id="十-逆向DRL"><a href="#十-逆向DRL" class="headerlink" title="十. 逆向DRL"></a>十. 逆向DRL</h5><ol>
+<li><p>Guided Cost Learning: Deep Inverse Optimal Control via Policy Optimization</p>
+</li>
+<li><p>Maximum Entropy Deep Inverse Reinforcement Learning</p>
+</li>
+<li><p>Generalizing Skills with Semi-Supervised Reinforcement Learning（11.14更新）</p>
+</li>
+</ol>
+<h5 id="十一-探索-监督学习"><a href="#十一-探索-监督学习" class="headerlink" title="十一. 探索+监督学习"></a>十一. 探索+监督学习</h5><ol>
+<li><p>Deep learning for real-time Atari game play using offline Monte-Carlo tree search planning</p>
+</li>
+<li><p>Better Computer Go Player with Neural Network and Long-term Prediction</p>
+</li>
+<li><p>Mastering the game of Go with deep neural networks and tree search, D. Silver et al., Nature, 2016.</p>
+</li>
+</ol>
+<h5 id="十二-异步DRL"><a href="#十二-异步DRL" class="headerlink" title="十二. 异步DRL"></a>十二. 异步DRL</h5><ol>
+<li><p>Asynchronous Methods for Deep Reinforcement Learning</p>
+</li>
+<li><p>Reinforcement Learning through Asynchronous Advantage Actor-Critic on a GPU（11.14更新）</p>
+</li>
+</ol>
+<h5 id="十三：适用于难度较大的游戏场景"><a href="#十三：适用于难度较大的游戏场景" class="headerlink" title="十三：适用于难度较大的游戏场景"></a>十三：适用于难度较大的游戏场景</h5><ol>
+<li><p>Hierarchical Deep Reinforcement Learning: Integrating Temporal Abstraction and Intrinsic Motivation, T. D. Kulkarni et al., arXiv, 2016.</p>
+</li>
+<li><p>Strategic Attentive Writer for Learning Macro-Actions</p>
+</li>
+<li><p>Unifying Count-Based Exploration and Intrinsic Motivation</p>
+</li>
+</ol>
+<h5 id="十四：单个网络玩多个游戏"><a href="#十四：单个网络玩多个游戏" class="headerlink" title="十四：单个网络玩多个游戏"></a>十四：单个网络玩多个游戏</h5><ol>
+<li><p>Policy Distillation</p>
+</li>
+<li><p>Universal Value Function Approximators</p>
+</li>
+<li><p>Learning values across many orders of magnitude</p>
+</li>
+</ol>
+<h5 id="十五：德州poker"><a href="#十五：德州poker" class="headerlink" title="十五：德州poker"></a>十五：德州poker</h5><ol>
+<li><p>Deep Reinforcement Learning from Self-Play in Imperfect-Information Games</p>
+</li>
+<li><p>Fictitious Self-Play in Extensive-Form Games</p>
+</li>
+<li><p>Smooth UCT search in computer poker</p>
+</li>
+</ol>
+<h5 id="十六：Doom游戏"><a href="#十六：Doom游戏" class="headerlink" title="十六：Doom游戏"></a>十六：Doom游戏</h5><ol>
+<li><p>ViZDoom: A Doom-based AI Research Platform for Visual Reinforcement Learning</p>
+</li>
+<li><p>Training Agent for First-Person Shooter Game with Actor-Critic Curriculum Learning</p>
+</li>
+<li><p>Playing FPS Games with Deep Reinforcement Learning</p>
+</li>
+<li><p>LEARNING TO ACT BY PREDICTING THE FUTURE（11.13更新）</p>
+</li>
+<li><p>Deep Reinforcement Learning From Raw Pixels in Doom（11.14更新）</p>
+</li>
+</ol>
+<h5 id="十七：大规模动作空间"><a href="#十七：大规模动作空间" class="headerlink" title="十七：大规模动作空间"></a>十七：大规模动作空间</h5><ol>
+<li>Deep Reinforcement Learning in Large Discrete Action Spaces</li>
+</ol>
+<h5 id="十八：参数化连续动作空间"><a href="#十八：参数化连续动作空间" class="headerlink" title="十八：参数化连续动作空间"></a>十八：参数化连续动作空间</h5><ol>
+<li>Deep Reinforcement Learning in Parameterized Action Space</li>
+</ol>
+<h5 id="十九：Deep-Model"><a href="#十九：Deep-Model" class="headerlink" title="十九：Deep Model"></a>十九：Deep Model</h5><ol>
+<li><p>Learning Visual Predictive Models of Physics for Playing Billiards</p>
+</li>
+<li><p>J. Schmidhuber, On Learning to Think: Algorithmic Information Theory for Novel Combinations of Reinforcement Learning Controllers and Recurrent Neural World Models, arXiv, 2015. arXiv</p>
+</li>
+<li><p>Learning Continuous Control Policies by Stochastic Value Gradients</p>
+</li>
+</ol>
+<p>4.Data-Efficient Learning of Feedback Policies from Image Pixels using Deep Dynamical Models</p>
+<ol start="5">
+<li><p>Action-Conditional Video Prediction using Deep Networks in Atari Games</p>
+</li>
+<li><p>Incentivizing Exploration In Reinforcement Learning With Deep Predictive Models</p>
+</li>
+</ol>
+<h5 id="二十：DRL应用"><a href="#二十：DRL应用" class="headerlink" title="二十：DRL应用"></a>二十：DRL应用</h5><p>机器人领域：</p>
+<ol>
+<li><p>Trust Region Policy Optimization</p>
+</li>
+<li><p>Towards Vision-Based Deep Reinforcement Learning for Robotic Motion Control</p>
+</li>
+<li><p>Path Integral Guided Policy Search</p>
+</li>
+<li><p>Memory-based control with recurrent neural networks</p>
+</li>
+<li><p>Learning Hand-Eye Coordination for Robotic Grasping with Deep Learning and Large-Scale Data Collection</p>
+</li>
+<li><p>Learning Deep Neural Network Policies with Continuous Memory States</p>
+</li>
+<li><p>High-Dimensional Continuous Control Using Generalized Advantage Estimation</p>
+</li>
+<li><p>Guided Cost Learning: Deep Inverse Optimal Control via Policy Optimization</p>
+</li>
+<li><p>End-to-End Training of Deep Visuomotor Policies</p>
+</li>
+<li><p>DeepMPC: Learning Deep Latent Features for Model Predictive Control</p>
+</li>
+<li><p>Deep Visual Foresight for Planning Robot Motion</p>
+</li>
+<li><p>Deep Reinforcement Learning for Robotic Manipulation</p>
+</li>
+<li><p>Continuous Deep Q-Learning with Model-based Acceleration</p>
+</li>
+<li><p>Collective Robot Reinforcement Learning with Distributed Asynchronous Guided Policy Search</p>
+</li>
+<li><p>Asynchronous Methods for Deep Reinforcement Learning</p>
+</li>
+<li><p>Learning Continuous Control Policies by Stochastic Value Gradients</p>
+</li>
+</ol>
+<p>机器翻译:</p>
+<ol>
+<li>Simultaneous Machine Translation using Deep Reinforcement Learning</li>
+</ol>
+<p>目标定位：</p>
+<ol>
+<li>Active Object Localization with Deep Reinforcement Learning</li>
+</ol>
+<p>目标驱动的视觉导航：</p>
+<ol>
+<li>Target-driven Visual Navigation in Indoor Scenes using Deep Reinforcement Learning</li>
+</ol>
+<p>自动调控参数：</p>
+<ol>
+<li>Using Deep Q-Learning to Control Optimization Hyperparameters</li>
+</ol>
+<p>人机对话：</p>
+<ol>
+<li><p>Deep Reinforcement Learning for Dialogue Generation</p>
+</li>
+<li><p>SimpleDS: A Simple Deep Reinforcement Learning Dialogue System</p>
+</li>
+<li><p>Strategic Dialogue Management via Deep Reinforcement Learning</p>
+</li>
+<li><p>Towards End-to-End Learning for Dialog State Tracking and Management using Deep Reinforcement Learning</p>
+</li>
+</ol>
+<p>视频预测：</p>
+<ol>
+<li>Action-Conditional Video Prediction using Deep Networks in Atari Games</li>
+</ol>
+<p>文本到语音：</p>
+<ol>
+<li>WaveNet: A Generative Model for Raw Audio</li>
+</ol>
+<p>文本生成：</p>
+<ol>
+<li>Generating Text with Deep Reinforcement Learning</li>
+</ol>
+<p>文本游戏：</p>
+<ol>
+<li>Language Understanding for Text-based Games Using Deep Reinforcement Learning</li>
+</ol>
+<p>无线电操控和信号监控：</p>
+<ol>
+<li>Deep Reinforcement Learning Radio Control and Signal Detection with KeRLym, a Gym RL Agent</li>
+</ol>
+<p>DRL来学习做物理实验：</p>
+<ol>
+<li>LEARNING TO PERFORM PHYSICS EXPERIMENTS VIA DEEP REINFORCEMENT LEARNING（11.13更新）</li>
+</ol>
+<p>DRL加速收敛：</p>
+<ol>
+<li>Deep Reinforcement Learning for Accelerating the Convergence Rate（11.14更新）</li>
+</ol>
+<p>利用DRL来设计神经网络：</p>
+<ol>
+<li><p>Designing Neural Network Architectures using Reinforcement Learning（11.14更新）</p>
+</li>
+<li><p>Tuning Recurrent Neural Networks with Reinforcement Learning（11.14更新）</p>
+</li>
+<li><p>Neural Architecture Search with Reinforcement Learning（11.14更新）</p>
+</li>
+</ol>
+<p>控制信号灯：</p>
+<ol>
+<li>Using a Deep Reinforcement Learning Agent for Traffic Signal Control（11.14更新）</li>
+</ol>
+<p>自动驾驶：</p>
+<ol>
+<li><p>CARMA: A Deep Reinforcement Learning Approach to Autonomous Driving（12.20更新）</p>
+</li>
+<li><p>Deep Reinforcement Learning for Simulated Autonomous Vehicle Control（12.20更新）</p>
+</li>
+<li><p>Deep Reinforcement Learning framework for Autonomous Driving（12.20更新）</p>
+</li>
+</ol>
+<h5 id="二十一：其它方向"><a href="#二十一：其它方向" class="headerlink" title="二十一：其它方向"></a>二十一：其它方向</h5><p>避免危险状态：</p>
+<ol>
+<li>Combating Deep Reinforcement Learning’s Sisyphean Curse with Intrinsic Fear （11.14更新）</li>
+</ol>
+<p>DRL中On-Policy vs. Off-Policy 比较：</p>
+<ol>
+<li>On-Policy vs. Off-Policy Updates for Deep Reinforcement Learning（11.14更新）</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/深度增强学习/" rel="tag"># 深度增强学习</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/17/Very-Deep-Convolution-Networks-For-Large-Scale-Image-Recognition/" rel="next" title="Very Deep Convolution Networks For Large-Scale Image Recognition">
+                <i class="fa fa-chevron-left"></i> Very Deep Convolution Networks For Large-Scale Image Recognition
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">wangxiaxia</p>
+              <p class="site-description motion-element" itemprop="description">滴水穿石</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#深度增强学习方向论文整理"><span class="nav-number">1.</span> <span class="nav-text">深度增强学习方向论文整理</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#一-开山鼻祖DQN"><span class="nav-number">1.0.1.</span> <span class="nav-text">一. 开山鼻祖DQN</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#二-DQN的各种改进版本（侧重于算法上的改进）"><span class="nav-number">1.0.2.</span> <span class="nav-text">二. DQN的各种改进版本（侧重于算法上的改进）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#三-DQN的各种改进版本（侧重于模型的改进）"><span class="nav-number">1.0.3.</span> <span class="nav-text">三. DQN的各种改进版本（侧重于模型的改进）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#四-基于策略梯度的深度强化学习"><span class="nav-number">1.0.4.</span> <span class="nav-text">四. 基于策略梯度的深度强化学习</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#五-分层DRL"><span class="nav-number">1.0.5.</span> <span class="nav-text">五. 分层DRL</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#六-DRL中的多任务和迁移学习"><span class="nav-number">1.0.6.</span> <span class="nav-text">六. DRL中的多任务和迁移学习</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#七-基于外部记忆模块的DRL模型"><span class="nav-number">1.0.7.</span> <span class="nav-text">七. 基于外部记忆模块的DRL模型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#八-DRL中探索与利用问题"><span class="nav-number">1.0.8.</span> <span class="nav-text">八. DRL中探索与利用问题</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#九-多Agent的DRL"><span class="nav-number">1.0.9.</span> <span class="nav-text">九. 多Agent的DRL</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#十-逆向DRL"><span class="nav-number">1.0.10.</span> <span class="nav-text">十. 逆向DRL</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#十一-探索-监督学习"><span class="nav-number">1.0.11.</span> <span class="nav-text">十一. 探索+监督学习</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#十二-异步DRL"><span class="nav-number">1.0.12.</span> <span class="nav-text">十二. 异步DRL</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#十三：适用于难度较大的游戏场景"><span class="nav-number">1.0.13.</span> <span class="nav-text">十三：适用于难度较大的游戏场景</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#十四：单个网络玩多个游戏"><span class="nav-number">1.0.14.</span> <span class="nav-text">十四：单个网络玩多个游戏</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#十五：德州poker"><span class="nav-number">1.0.15.</span> <span class="nav-text">十五：德州poker</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#十六：Doom游戏"><span class="nav-number">1.0.16.</span> <span class="nav-text">十六：Doom游戏</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#十七：大规模动作空间"><span class="nav-number">1.0.17.</span> <span class="nav-text">十七：大规模动作空间</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#十八：参数化连续动作空间"><span class="nav-number">1.0.18.</span> <span class="nav-text">十八：参数化连续动作空间</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#十九：Deep-Model"><span class="nav-number">1.0.19.</span> <span class="nav-text">十九：Deep Model</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#二十：DRL应用"><span class="nav-number">1.0.20.</span> <span class="nav-text">二十：DRL应用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#二十一：其它方向"><span class="nav-number">1.0.21.</span> <span class="nav-text">二十一：其它方向</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wangxiaxia</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
