@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Wxia">
 <meta property="og:description" content="摘要 同时训练两个网络：生成模型G、判别模型D 生成网络G的目标就是尽量生成真实的图片去欺骗判别网络D。而D的目标就是尽量把G生成的图片和真实的图片分别开来。这样，G和D构成了一个动态的“博弈过程”。 那么，在任意G和D的function space中存在unique解，该解能够让G从training data中恢复出原本sample space的数据分布；让D无法判别生成的图像真实性，以1/2概">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-10-24T13:02:13.965Z">
+<meta property="og:updated_time" content="2018-10-24T13:13:04.126Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="#paper#Generative Adversarial Nets">
 <meta name="twitter:description" content="摘要 同时训练两个网络：生成模型G、判别模型D 生成网络G的目标就是尽量生成真实的图片去欺骗判别网络D。而D的目标就是尽量把G生成的图片和真实的图片分别开来。这样，G和D构成了一个动态的“博弈过程”。 那么，在任意G和D的function space中存在unique解，该解能够让G从training data中恢复出原本sample space的数据分布；让D无法判别生成的图像真实性，以1/2概">
@@ -349,7 +349,7 @@
 <li>G和D由多层感知器组成，并采用BP训练。<font color="#dd0000">在训练或生成样本期间不需要任何马尔可夫链或展开的近似推断网络。</font></li>
 </ul>
 <h4 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h4><ul>
-<li>So far，深度学习中辨别模型Adversarial model的成功，通常是那些将高维度，丰富的感官输入映射到类别标签的模型，主要得意于BP和dropout算法，使用具有特别良好的梯度的分段线性单元。</li>
+<li>So far，深度学习中辨别模型Discriminative model的成功，通常是那些将高维度，丰富的感官输入映射到类别标签的模型，主要得意于BP和dropout算法，使用具有特别良好的梯度的分段线性单元。</li>
 <li>但是，深度生成模型Generative model影响较小，主要在于<font color="#dd0000">难以近似在maximum likelihood estimation 和相关策略中出现难以处理的概率计算，并难以在生成环境中利用分段线性单元的好处</font></li>
 </ul>
 
@@ -391,6 +391,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/10/25/哈佛极简经济学/" rel="prev" title="哈佛极简经济学">
+                哈佛极简经济学 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -467,7 +471,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -478,7 +482,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -489,7 +493,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
