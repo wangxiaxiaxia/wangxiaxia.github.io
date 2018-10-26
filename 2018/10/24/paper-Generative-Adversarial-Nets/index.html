@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="摘要 同时训练两个网络：生成模型G、判别模型D 生成网络G的目标就是尽量生成真实的图片去欺骗判别网络D。而D的目标就是尽量把G生成的图片和真实的图片分别开来。这样，G和D构成了一个动态的“博弈过程”。 那么，在任意G和D的function space中存在unique解，该解能够让G从training data中恢复出原本sample space的数据分布；让D无法判别生成的图像真实性，以1/2概">
+<meta name="description" content="摘要GAN 启发自博弈论中的二人零和博弈（two-player game），GAN 模型中的两位博弈方分别由生成式模型（generative model）和判别式模型（discriminative model）充当。生成模型 G 捕捉样本数据的分布，用服从某一分布（均匀分布，高斯分布等）的噪声 z 生成一个类似真实训练数据的样本，追求效果是越像真实样本越好；判别模型 D 是一个二分类器，估计一个样">
 <meta name="keywords" content="生成对抗网络">
 <meta property="og:type" content="article">
 <meta property="og:title" content="#paper#Generative Adversarial Nets">
 <meta property="og:url" content="http://yoursite.com/2018/10/24/paper-Generative-Adversarial-Nets/index.html">
 <meta property="og:site_name" content="Wxia">
-<meta property="og:description" content="摘要 同时训练两个网络：生成模型G、判别模型D 生成网络G的目标就是尽量生成真实的图片去欺骗判别网络D。而D的目标就是尽量把G生成的图片和真实的图片分别开来。这样，G和D构成了一个动态的“博弈过程”。 那么，在任意G和D的function space中存在unique解，该解能够让G从training data中恢复出原本sample space的数据分布；让D无法判别生成的图像真实性，以1/2概">
+<meta property="og:description" content="摘要GAN 启发自博弈论中的二人零和博弈（two-player game），GAN 模型中的两位博弈方分别由生成式模型（generative model）和判别式模型（discriminative model）充当。生成模型 G 捕捉样本数据的分布，用服从某一分布（均匀分布，高斯分布等）的噪声 z 生成一个类似真实训练数据的样本，追求效果是越像真实样本越好；判别模型 D 是一个二分类器，估计一个样">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-10-24T13:13:04.126Z">
+<meta property="og:updated_time" content="2018-10-26T02:54:01.384Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="#paper#Generative Adversarial Nets">
-<meta name="twitter:description" content="摘要 同时训练两个网络：生成模型G、判别模型D 生成网络G的目标就是尽量生成真实的图片去欺骗判别网络D。而D的目标就是尽量把G生成的图片和真实的图片分别开来。这样，G和D构成了一个动态的“博弈过程”。 那么，在任意G和D的function space中存在unique解，该解能够让G从training data中恢复出原本sample space的数据分布；让D无法判别生成的图像真实性，以1/2概">
+<meta name="twitter:description" content="摘要GAN 启发自博弈论中的二人零和博弈（two-player game），GAN 模型中的两位博弈方分别由生成式模型（generative model）和判别式模型（discriminative model）充当。生成模型 G 捕捉样本数据的分布，用服从某一分布（均匀分布，高斯分布等）的噪声 z 生成一个类似真实训练数据的样本，追求效果是越像真实样本越好；判别模型 D 是一个二分类器，估计一个样">
 
 
 
@@ -342,7 +342,8 @@
       
 
       
-        <h4 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h4><ul>
+        <h4 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h4><p>GAN 启发自博弈论中的二人零和博弈（two-player game），GAN 模型中的两位博弈方分别由生成式模型（generative model）和判别式模型（discriminative model）充当。生成模型 G 捕捉样本数据的分布，用服从某一分布（均匀分布，高斯分布等）的噪声 z 生成一个类似真实训练数据的样本，追求效果是越像真实样本越好；判别模型 D 是一个二分类器，估计一个样本来自于训练数据（而非生成数据）的概率，如果样本来自于真实的训练数据，D 输出大概率，否则，D 输出小概率。可以做如下类比：生成网络 G 好比假币制造团伙，专门制造假币，判别网络 D 好比警察，专门检测使用的货币是真币还是假币，G 的目标是想方设法生成和真币一样的货币，使得 D 判别不出来，D 的目标是想方设法检测出来 G 生成的假币。</p>
+<ul>
 <li>同时训练两个网络：生成模型G、判别模型D</li>
 <li>生成网络G的目标就是<font color="#dd0000">尽量生成真实的图片去欺骗判别网络D。而D的目标就是尽量把G生成的图片和真实的图片分别开来</font>。这样，G和D构成了一个动态的“博弈过程”。</li>
 <li>那么，在任意G和D的function space中存在unique解，该解能够让<font color="#dd0000">G从training data中恢复出原本sample space的数据分布；让D无法判别生成的图像真实性，以1/2概率猜测真假。</font></li>
@@ -351,6 +352,14 @@
 <h4 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h4><ul>
 <li>So far，深度学习中辨别模型Discriminative model的成功，通常是那些将高维度，丰富的感官输入映射到类别标签的模型，主要得意于BP和dropout算法，使用具有特别良好的梯度的分段线性单元。</li>
 <li>但是，深度生成模型Generative model影响较小，主要在于<font color="#dd0000">难以近似在maximum likelihood estimation 和相关策略中出现难以处理的概率计算，并难以在生成环境中利用分段线性单元的好处</font></li>
+</ul>
+<h4 id="相关工作"><a href="#相关工作" class="headerlink" title="相关工作"></a>相关工作</h4><ul>
+<li>之前，大多数关于深度生成模型的工作都集中在提供概率分布函数的参数规范的模型上。 然后可以通过最大化对数似然来训练模型，这些模型通常具有难以处理的似然函数，因此需要对似然梯度进行多次近似。</li>
+<li>与生成性对抗网络一样，变分自动编码器将可微分发生器网络与第二神经网络配对。 与生成性对抗性网络不同，VAE中的第二个网络是执行近似推断的识别模型。 GAN需要通过可见单元进行区分，因此不能对离散数据建模，而VAE需要通过隐藏单元进行区分，因此不能具有离散的潜在变量。 </li>
+<li>以前的工作也采取了使用判别标准来训练生成模型的方法，这些方法甚至难以近似深度模型，因为它们涉及概率的比率，这些概率不能使用降低概率的变分近似来近似。</li>
+</ul>
+<h4 id="对抗网络"><a href="#对抗网络" class="headerlink" title="对抗网络"></a>对抗网络</h4><ul>
+<li>这是关于判别网络D和生成网络G的价值函数（Value Function），训练网络D使得最大概率地分对训练样本的标签（最大化log D(x)），训练网络G最小化log(1 – D(G(z)))，即最大化D的损失。训练过程中固定一方，更新另一个网络的参数，交替迭代，使得对方的错误最大化，最终，G 能估测出样本数据的分布。生成模型G隐式地定义了一个概率分布Pg，我们希望Pg 收敛到数据真实分布Pdata。论文证明了这个极小化极大博弈当且仅当Pg = Pdata时存在最优解，即达到纳什均衡，此时生成模型G恢复了训练数据的分布，判别模型D的准确率等于50%。 </li>
 </ul>
 
       
@@ -382,8 +391,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/10/24/DRL-paper/" rel="next" title="DRL paper">
-                <i class="fa fa-chevron-left"></i> DRL paper
+              <a href="/2018/10/24/GAN_paper/" rel="next" title="GAN paper">
+                <i class="fa fa-chevron-left"></i> GAN paper
               </a>
             
           </div>
@@ -471,7 +480,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -482,7 +491,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -493,7 +502,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -526,7 +535,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#摘要"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Introduction"><span class="nav-number">2.</span> <span class="nav-text">Introduction</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#摘要"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Introduction"><span class="nav-number">2.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#相关工作"><span class="nav-number">3.</span> <span class="nav-text">相关工作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#对抗网络"><span class="nav-number">4.</span> <span class="nav-text">对抗网络</span></a></li></ol></div>
             
 
           </div>
